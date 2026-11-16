@@ -1,10 +1,5 @@
 import 'package:hive/hive.dart';
-
-// File ini dibuat oleh build_runner (lihat README bagian "Hive Adapter").
 part 'favorite_show.g.dart';
-
-/// Class custom yang disimpan di Hive (Modul 6 langkah 5, mirip class Todo).
-/// typeId adalah identifier class ini di Hive; harus unik per class.
 @HiveType(typeId: 0)
 class FavoriteShow extends HiveObject {
   @HiveField(0)

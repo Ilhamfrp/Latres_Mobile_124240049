@@ -5,7 +5,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../../controller/favorite_controller.dart';
 import '../../model/favorite_show.dart';
 import '../../routes/app_routes.dart';
-import '../../utils/constants.dart';
 
 class FavoritePage extends StatelessWidget {
   FavoritePage({super.key});
@@ -16,9 +15,8 @@ class FavoritePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Daftar Favorit')),
-      // Sama seperti Home To-do di Modul 6: ValueListenableBuilder + Hive Box.
       body: ValueListenableBuilder<Box<FavoriteShow>>(
-        valueListenable: Hive.box<FavoriteShow>(kFavBox).listenable(),
+        valueListenable: Hive.box<FavoriteShow>('favorites').listenable(),
         builder: (context, box, child) {
           if (box.isEmpty) {
             return const Center(child: Text('Belum ada show favorit.'));
@@ -28,14 +26,13 @@ class FavoritePage extends StatelessWidget {
             itemCount: box.length,
             separatorBuilder: (context, index) => const SizedBox(height: 8),
             itemBuilder: (context, index) {
-              final fav = box.getAt(index); // ambil data berdasarkan index
+              final fav = box.getAt(index);
               if (fav == null) return const SizedBox.shrink();
               return ListTile(
-                tileColor: kCard,
+                tileColor: Color(0xFF1C1C1E),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
-                // Klik -> ke detail show tersebut (kirim id lewat arguments)
                 onTap: () => Get.toNamed(AppRoutes.detail, arguments: fav.id),
                 leading: ClipRRect(
                   borderRadius: BorderRadius.circular(6),
@@ -59,8 +56,8 @@ class FavoritePage extends StatelessWidget {
                   ],
                 ),
                 trailing: IconButton(
-                  icon: const Icon(Icons.delete, color: kAccent),
-                  onPressed: () => favController.removeAt(index), // deleteAt()
+                  icon: const Icon(Icons.delete, color: Colors.red),
+                  onPressed: () => favController.removeAt(index),
                 ),
               );
             },

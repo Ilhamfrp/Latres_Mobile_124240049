@@ -2,13 +2,10 @@ import 'package:get/get.dart';
 
 import '../model/show.dart';
 import '../service/show_service.dart';
-
-/// Controller untuk halaman Detail. Id show diterima lewat Get.arguments
-/// (dikirim dari Get.toNamed(..., arguments: id)).
 class DetailController extends GetxController {
   final ShowService _showService = ShowService();
 
-  final Rxn<Show> _show = Rxn<Show>(); // Rxn = Rx yang boleh null
+  final Rxn<Show> _show = Rxn<Show>();
   final RxBool _isLoading = true.obs;
   final RxString _errorMessage = ''.obs;
 

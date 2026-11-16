@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../routes/app_routes.dart';
-import '../../utils/constants.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -19,28 +18,23 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    _checkLogin(); // setiap halaman ini dimuat, cek apakah sudah pernah login
+    _checkLogin();
   }
-
-  // Modul 6 (_checkLogin): baca nilai SharedPreferences, kalau sudah login
-  // langsung pindah ke halaman utama.
   void _checkLogin() async {
     final prefs = await SharedPreferences.getInstance();
-    final adaLogin = prefs.getBool(kPrefLoggedIn) ?? false;
+    final adaLogin = prefs.getBool('loginData') ?? false;
     if (adaLogin && mounted) {
-      Get.offAllNamed(AppRoutes.main); // setara pushAndRemoveUntil
+      Get.offAllNamed(AppRoutes.main);
     }
   }
-
-  // Modul 6 (_login): validasi, simpan session ke SharedPreferences, pindah.
   void _login() async {
     final username = _usernameController.text.trim();
     final password = _passwordController.text.trim();
 
-    if (username == kNim && password == kPassword) {
+    if (username == '124240049' && password == '123') {
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setBool(kPrefLoggedIn, true);
-      await prefs.setString(kPrefUsername, username);
+      await prefs.setBool('loginData', true);
+      await prefs.setString('username', username);
       Get.offAllNamed(AppRoutes.main);
     } else {
       Get.snackbar(
@@ -68,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.movie_outlined, size: 72, color: kAccent),
+                const Icon(Icons.movie_outlined, size: 72, color: Colors.red),
                 const SizedBox(height: 8),
                 const Text(
                   'Skuy Nonton!',
@@ -103,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
       hintText: label,
       prefixIcon: Icon(icon),
       filled: true,
-      fillColor: kCard,
+      fillColor: Color(0xFF1C1C1E),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide.none,

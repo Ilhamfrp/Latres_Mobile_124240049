@@ -5,16 +5,12 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'model/favorite_show.dart';
 import 'routes/app_pages.dart';
 import 'routes/app_routes.dart';
-import 'utils/constants.dart';
 
 void main() async {
-  // Wajib karena main() async dan ada await di dalamnya (Modul 6).
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Inisialisasi Hive, daftarkan adapter, lalu buka box favorit.
   await Hive.initFlutter();
   Hive.registerAdapter(FavoriteShowAdapter());
-  await Hive.openBox<FavoriteShow>(kFavBox);
+  await Hive.openBox<FavoriteShow>('favorites');
 
   runApp(const MainApp());
 }
@@ -24,27 +20,26 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // GetMaterialApp (bukan MaterialApp) agar navigasi GetX bisa dipakai.
     return GetMaterialApp(
       title: 'Skuy Nonton!',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
         scaffoldBackgroundColor: Colors.black,
-        colorScheme: const ColorScheme.dark(primary: kAccent),
+        colorScheme: const ColorScheme.dark(primary: Colors.red),
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.black,
           elevation: 0,
         ),
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           backgroundColor: Colors.black,
-          selectedItemColor: kAccent,
+          selectedItemColor: Colors.red,
           unselectedItemColor: Colors.grey,
           type: BottomNavigationBarType.fixed,
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: kAccent,
+            backgroundColor: Colors.red,
             foregroundColor: Colors.white,
             minimumSize: const Size.fromHeight(48),
             shape: RoundedRectangleBorder(
@@ -53,7 +48,7 @@ class MainApp extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: AppRoutes.login, // LoginPage akan cek session sendiri
+      initialRoute: AppRoutes.login,
       getPages: AppPages.routes,
     );
   }

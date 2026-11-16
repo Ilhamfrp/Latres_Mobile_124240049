@@ -6,7 +6,6 @@ import '../../controller/detail_controller.dart';
 import '../../controller/favorite_controller.dart';
 import '../../model/favorite_show.dart';
 import '../../model/show.dart';
-import '../../utils/constants.dart';
 
 class DetailPage extends StatelessWidget {
   DetailPage({super.key});
@@ -21,12 +20,12 @@ class DetailPage extends StatelessWidget {
         title: const Text('Detail'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => Get.back(), // setara Navigator.pop(context)
+          onPressed: () => Get.back(),
         ),
       ),
       body: Obx(() {
         if (controller.isLoading) {
-          return const Center(child: CircularProgressIndicator(color: kAccent));
+          return const Center(child: CircularProgressIndicator(color: Colors.red));
         }
         final show = controller.show;
         if (show == null) {
@@ -76,11 +75,8 @@ class DetailPage extends StatelessWidget {
             style: const TextStyle(color: Colors.grey),
           ),
           const SizedBox(height: 16),
-
-          // Tombol favorit. ValueListenableBuilder mendengarkan perubahan Box
-          // Hive (Modul 6), jadi tampilannya otomatis ikut berubah.
           ValueListenableBuilder<Box<FavoriteShow>>(
-            valueListenable: Hive.box<FavoriteShow>(kFavBox).listenable(),
+            valueListenable: Hive.box<FavoriteShow>('favorites').listenable(),
             builder: (context, box, child) {
               final isFav = favController.isFavorite(show.id);
               return Row(
@@ -97,7 +93,7 @@ class DetailPage extends StatelessWidget {
                   const SizedBox(width: 8),
                   Icon(
                     isFav ? Icons.favorite : Icons.favorite_border,
-                    color: kAccent,
+                    color: Colors.red,
                   ),
                 ],
               );

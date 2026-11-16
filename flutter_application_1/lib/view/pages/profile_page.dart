@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../routes/app_routes.dart';
-import '../../utils/constants.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -20,21 +19,16 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     _loadUsername();
   }
-
-  // Ambil username yang disimpan saat login (SharedPreferences).
   void _loadUsername() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      _username = prefs.getString(kPrefUsername) ?? '-';
+      _username = prefs.getString('username') ?? '-';
     });
   }
-
-  // Modul 6 (_logout): hapus session lalu kembali ke login dan
-  // buang semua halaman sebelumnya.
   void _logout() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(kPrefLoggedIn);
-    await prefs.remove(kPrefUsername);
+    await prefs.remove('loginData');
+    await prefs.remove('username');
     Get.offAllNamed(AppRoutes.login);
   }
 
@@ -50,7 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               const CircleAvatar(
                 radius: 44,
-                backgroundColor: kCard,
+                backgroundColor: Color(0xFF1C1C1E),
                 child: Icon(Icons.person, size: 48, color: Colors.grey),
               ),
               const SizedBox(height: 16),
@@ -60,7 +54,8 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               const SizedBox(height: 16),
               const Text(
-                kKesanPesan,
+                'Kesan: Praktikum mobile sangat menyenangkan seperti es teh\n'
+                'Pesan: Semangat terus ya Kak Aslab, makasih atas bimbingannya',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.grey, height: 1.5),
               ),

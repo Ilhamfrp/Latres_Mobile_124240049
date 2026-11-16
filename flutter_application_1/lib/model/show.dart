@@ -1,14 +1,11 @@
-/// Model untuk menampung data show dari API TVMaze (Modul 5 bagian F & G).
-/// Memakai factory constructor fromJson() supaya konversi Map -> objek
-/// menjadi urusan class ini, bukan urusan service.
 class Show {
   final int id;
   final String name;
-  final String? image; // ukuran medium (untuk list)
-  final String? imageOriginal; // ukuran besar (untuk detail)
-  final double? rating; // bisa null kalau show belum punya rating
+  final String? image;
+  final String? imageOriginal;
+  final double? rating;
   final List<dynamic> genres;
-  final String summary; // masih berupa teks HTML
+  final String summary;
 
   Show({
     required this.id,
@@ -21,7 +18,7 @@ class Show {
   });
 
   factory Show.fromJson(Map<String, dynamic> json) {
-    final img = json['image']; // bisa null
+    final img = json['image'];
     return Show(
       id: json['id'],
       name: json['name'] ?? '-',
@@ -32,14 +29,8 @@ class Show {
       summary: json['summary'] ?? '',
     );
   }
-
-  // Android memblokir http biasa, jadi ubah ke https.
   static String? _toHttps(String? url) => url?.replaceFirst('http://', 'https://');
-
-  /// Rating siap tampil. Kalau null ditulis '-'.
   String get ratingText => rating == null ? '-' : rating.toString();
-
-  /// Summary dari API berisi tag HTML (<p>, <b>, dst), kita bersihkan.
   String get cleanSummary => summary.isEmpty
       ? 'Tidak ada ringkasan.'
       : summary.replaceAll(RegExp(r'<[^>]*>'), '').trim();
